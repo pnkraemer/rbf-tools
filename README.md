@@ -9,3 +9,4 @@ I am planning to include the following things:
 	- various visualisations
 
 Most of these are based the libraries numpy, scipy and matplotlib. Occasionally I will use sympy.
+
