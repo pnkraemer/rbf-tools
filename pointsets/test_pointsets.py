@@ -1,3 +1,4 @@
+############################################
 # NAME:
 # test_pointsets.py
 
@@ -10,6 +11,7 @@
 
 # AUTHOR: 
 # Nicholas Kraemer, kraemer@ins.uni-bonn.de
+############################################
 
 import matplotlib.pyplot as plt
 from pointsets import getptsTensorgrid, getptsRandomshiftlattice
