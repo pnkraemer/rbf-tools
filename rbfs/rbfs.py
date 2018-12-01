@@ -28,7 +28,7 @@ def buildKernMtrxStd(firstPtset, secondPtset, kernFct):
 	kernelMtrxFrame = np.zeros((lenFirstPts,lenSecPts))
 	for rowIdx in range(lenFirstPts):
 		for colIdx in range(lenSecPts):
-			kernelMtrxFrame[i,j] = kernFct(firstPtset[rowIdx,:], secondPtset[colIdx,:])
+			kernelMtrxFrame[rowIdx,colIdx] = kernFct(firstPtset[rowIdx,:], secondPtset[colIdx,:])
 	return kernelMtrxFrame
 
 
@@ -42,7 +42,6 @@ def maternfct(distVar, smoothnessPar, lengthscalePar = 1.0, scalingPar = 1.0):
  		scaledDistVar = np.sqrt(2*smoothnessPar)*distVar / lengthscalePar
 		return scalingPar**2 * 2**(1-smoothnessPar) / scipy.special.gamma(smoothnessPar) \
 			* scaledDistVar**(smoothnessPar) * scipy.special.kv(smoothnessPar, scaledDistVar)
-
 
 
 
