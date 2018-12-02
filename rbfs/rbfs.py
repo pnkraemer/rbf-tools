@@ -20,37 +20,6 @@ import numpy as np
 import scipy.special
 import scipy.spatial
 
-def buildKernMtrxMatern(firstPtset, secondPtset, smoothnessPar, lengthscalePar = 1.0, scalingPar = 1.0, normOrd = None):
-	def maternkernel(pt1, pt2):
-		distVar = np.linalg.norm(pt1 - pt2, ord = normOrd)
-		if distVar <= 0:
-			return scalingPar**2
-		else:
- 			scaledDistVar = np.sqrt(2*smoothnessPar)*distVar / lengthscalePar
-		return scalingPar**2 * 2**(1-smoothnessPar) / scipy.special.gamma(smoothnessPar) \
-			* scaledDistVar**(smoothnessPar) * scipy.special.kv(smoothnessPar, scaledDistVar)
-	lenFirstPts = len(firstPtset)
-	lenSecPts = len(secondPtset)
-	kernelMtrxFrame = np.zeros((lenFirstPts,lenSecPts))
-	for rowIdx in range(lenFirstPts):
-		for colIdx in range(lenSecPts):
-			kernelMtrxFrame[rowIdx,colIdx] = maternkernel(firstPtset[rowIdx,:], secondPtset[colIdx,:])
-	return kernelMtrxFrame
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def buildKernMtrxMatern(firstPtset, secondPtset, smoothnessPar, lengthscalePar = 1.0, scalingPar = 1.0):
 	def matern(pt1, pt2, reg = smoothnessPar):
 		varDst = normDist(pt1, pt2)
