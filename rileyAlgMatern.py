@@ -1,10 +1,13 @@
-# NAME:
+# NAME: 'rileyAlgMatern.py'
 
-# PURPOSE:
+# PURPOSE: Check the influence of the shifts 
+# and accuracy onto Riley's Algorithm
 
-# DESCRIPTION:
 
-# AUTHOR:
+# DESCRIPTION: I solve a system involving a Matern-kernel matrix 
+# and iteratively compute the approximations with Riley algorithms
+
+# AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import sympy
 import numpy
