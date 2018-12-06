@@ -16,10 +16,8 @@ import matplotlib.pyplot
 from halton import halton_sequence
 import scipy.special
 
-
 numpy.set_printoptions(precision = 1)
 
-# Determine size of the checkup
 print "\nHow many points shall we work with? (e.g. 100)"
 print "\tnumPts = ?"
 numPts = input("Enter: ")
@@ -42,7 +40,6 @@ maternScale = 1.0
 maternCorrLength = 1.0
 maternReg = 1.0
 
-# computes l2 norm of (xxx,yyy) and returns matern function
 def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternScale, mAternCorrLength = maternCorrLength):
 	normOfPts = numpy.sqrt(numpy.abs(firstPt)**(2.0) + numpy.abs(secondPt)**(2.0))
 	if normOfPts <= 0:
@@ -51,9 +48,6 @@ def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternS
 		scaledNormOfPts = numpy.sqrt(2.0*mAternReg)*normOfPts / mAternCorrLength
 		return mAternScale**2 * 2**(1.0-mAternReg) / scipy.special.gamma(mAternReg) * scaledNormOfPts**(mAternReg) * scipy.special.kv(mAternReg, scaledNormOfPts)
 
-
-
-# Function to build a matrix for divergence-free kernels
 def buildKernel(X,Y, kernelfct = maternkernel):
 	XX = numpy.zeros((len(X),len(Y)))
 	for i in range(len(X)):
@@ -86,7 +80,6 @@ counter = 0
 currentRelError = 100.0
 while currentRelError >= rileyAcc and counter <= rileyNumMaxIt:
 	counter = counter + 1
-	#print iteration
 	currIt = startVec + rileyShift * numpy.linalg.solve(shiftKernMtrx,currIt)
 	currentRelError = numpy.linalg.norm(currIt - trueSol)/numpy.linalg.norm(trueSol)
 	print counter, "-", '{:.5e}'.format(currentRelError)

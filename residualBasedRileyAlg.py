@@ -16,7 +16,6 @@ import matplotlib.pyplot
 from halton import halton_sequence
 import scipy.special
 
-
 numpy.set_printoptions(precision = 1)
 
 # Determine size of the checkup
@@ -42,7 +41,6 @@ maternScale = 1.0
 maternCorrLength = 1.0
 maternReg = 1.0
 
-# computes l2 norm of (xxx,yyy) and returns matern function
 def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternScale, mAternCorrLength = maternCorrLength):
 	normOfPts = numpy.sqrt(numpy.abs(firstPt)**(2.0) + numpy.abs(secondPt)**(2.0))
 	if normOfPts <= 0:
@@ -52,8 +50,6 @@ def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternS
 		return mAternScale**2 * 2**(1.0-mAternReg) / scipy.special.gamma(mAternReg) * scaledNormOfPts**(mAternReg) * scipy.special.kv(mAternReg, scaledNormOfPts)
 
 
-
-# Function to build a matrix for divergence-free kernels
 def buildKernel(X,Y, kernelfct = maternkernel):
 	XX = numpy.zeros((len(X),len(Y)))
 	for i in range(len(X)):
