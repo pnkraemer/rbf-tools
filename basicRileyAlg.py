@@ -5,8 +5,8 @@
 
 
 # DESCRIPTION: I solve a system involving a Matern-kernel matrix 
-# and iteratively compute the approximations with Riley algorithms
-# (slide 42 on https://drna.padovauniversitypress.it/system/files/papers/Fasshauer-2008-Lecture3.pdf)
+# and iteratively compute the approximations with Riley's algorithms
+# (as in (2) on slide 42 on https://drna.padovauniversitypress.it/system/files/papers/Fasshauer-2008-Lecture3.pdf)
 
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
@@ -24,11 +24,7 @@ print "\nHow many points shall we work with? (e.g. 100)"
 print "\tnumPts = ?"
 numPts = input("Enter: ")
 
-print "\nWhich regularity for the Matern function? (e.g. 1)"
-print "\tmaternReg = ?"
-maternReg = input("Enter: ")
-
-print "\nWhich shift for Riley? (e.g. 0.01)"
+print "\nWhich shift for Riley? (e.g. 0.001)"
 print "\trileyShift = ?"
 rileyShift = input("Enter: ")
 
@@ -42,20 +38,18 @@ rileyNumMaxIt = input("Enter: ")
 print ""
 
 
-sigma = 1.0
-rho = 1.0
+maternScale = 1.0
+maternCorrLength = 1.0
+maternReg = 1.0
 
 # computes l2 norm of (xxx,yyy) and returns matern function
-def maternkernel(xx, yy, nU = maternReg, sIgma = sigma, rHo = rho):
-	xxx = numpy.abs(xx)
-	yyy = numpy.abs(yy)
-	r = numpy.sqrt(xxx**(2.0) + yyy**(2.0))
-	if r <= 0:
-		return sIgma**2
+def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternScale, mAternCorrLength = maternCorrLength):
+	normOfPts = numpy.sqrt(numpy.abs(firstPt)**(2.0) + numpy.abs(secondPt)**(2.0))
+	if normOfPts <= 0:
+		return maternScale**2
 	else:
-		z = numpy.sqrt(2.0*nU)*r / rHo
-		a = sIgma**2 * 2**(1.0-nU) / scipy.special.gamma(nU)
-		return a * z**(nU) * scipy.special.kv(nU, z)
+		scaledNormOfPts = numpy.sqrt(2.0*mAternReg)*normOfPts / mAternCorrLength
+		return mAternScale**2 * 2**(1.0-mAternReg) / scipy.special.gamma(mAternReg) * scaledNormOfPts**(mAternReg) * scipy.special.kv(mAternReg, scaledNormOfPts)
 
 
 
@@ -74,44 +68,28 @@ def shiftKernelMtrx(kernelMtrx, rileyShift = rileyShift):
 	return kernelMtrx + rileyShift * identity
 
 
-
-# Build pointset (Halton)
 ptSet = halton_sequence(numPts + 1,2)
 ptSet = ptSet[1:,:]
 
-# Build divergence-free kernel matrix
 kernMtrx = buildKernel(ptSet,ptSet)
 shiftKernMtrx = shiftKernelMtrx(kernMtrx)
-
-# Construct Lagrange functions, use random evaluation points
-invKernMtrx = numpy.linalg.inv(kernMtrx)
-invShiftKernMtrx = numpy.linalg.inv(shiftKernMtrx)
-
 
 rhs = numpy.zeros(numPts)
 rhs[0] = 1
 
-
-
-
-trueSol = invKernMtrx.dot(rhs)
+trueSol = numpy.linalg.solve(kernMtrx,rhs)
 
 print "\nIterations - relative errors:"
-
-startVec = invShiftKernMtrx.dot(rhs)
-currIt = startVec
+startVec = numpy.linalg.solve(shiftKernMtrx,rhs)
+currIt = numpy.zeros(numPts)
 counter = 0
 currentRelError = 100.0
-
-
 while currentRelError >= rileyAcc and counter <= rileyNumMaxIt:
 	counter = counter + 1
 	#print iteration
-	currIt = startVec + rileyShift * invShiftKernMtrx.dot(currIt)
+	currIt = startVec + rileyShift * numpy.linalg.solve(shiftKernMtrx,currIt)
 	currentRelError = numpy.linalg.norm(currIt - trueSol)/numpy.linalg.norm(trueSol)
-	print counter, "-", '{:.1e}'.format(currentRelError)
-
-
+	print counter, "-", '{:.5e}'.format(currentRelError)
 print ""
 
 
