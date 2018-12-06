@@ -6,6 +6,7 @@
 
 # DESCRIPTION: I solve a system involving a Matern-kernel matrix 
 # and iteratively compute the approximations with Riley algorithms
+# (slide 42 on https://drna.padovauniversitypress.it/system/files/papers/Fasshauer-2008-Lecture3.pdf)
 
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
