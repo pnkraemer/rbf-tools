@@ -3,7 +3,6 @@
 # PURPOSE: Check the influence of the shifts 
 # and accuracy onto Riley's Algorithm
 
-
 # DESCRIPTION: I solve a system involving a Matern-kernel matrix 
 # and iteratively compute the approximations with Riley's algorithms
 # (as in (2) on slide 42 on https://drna.padovauniversitypress.it/system/files/papers/Fasshauer-2008-Lecture3.pdf)
@@ -21,6 +20,10 @@ numpy.set_printoptions(precision = 1)
 print "\nHow many points shall we work with? (e.g. 100)"
 print "\tnumPts = ?"
 numPts = input("Enter: ")
+
+print "\nWhich input dimension? (e.g. 2)"
+print "\tdim = ?"
+dim = input("Enter: ")
 
 print "\nWhich shift for Riley? (e.g. 0.001)"
 print "\trileyShift = ?"
@@ -48,7 +51,7 @@ def maternkernel(firstPt, secondPt, mAternReg = maternReg, mAternScale = maternS
 		scaledNormOfPts = numpy.sqrt(2.0*mAternReg)*normOfPts / mAternCorrLength
 		return mAternScale**2 * 2**(1.0-mAternReg) / scipy.special.gamma(mAternReg) * scaledNormOfPts**(mAternReg) * scipy.special.kv(mAternReg, scaledNormOfPts)
 
-def buildKernel(X,Y, kernelfct = maternkernel):
+def buildKernelMtrx(X,Y, kernelfct = maternkernel):
 	XX = numpy.zeros((len(X),len(Y)))
 	for i in range(len(X)):
 		for j in range(len(Y)):
@@ -61,14 +64,16 @@ def shiftKernelMtrx(kernelMtrx, rileyShift = rileyShift):
 	identity = numpy.identity(len(kernelMtrx))
 	return kernelMtrx + rileyShift * identity
 
-
-ptSet = halton_sequence(numPts + 1,2)
+ptSet = halton_sequence(numPts + 1,dim)
 ptSet = ptSet[1:,:]
 
-kernMtrx = buildKernel(ptSet,ptSet)
+ptSet = numpy.random.rand(numPts, dim)
+
+
+kernMtrx = buildKernelMtrx(ptSet,ptSet)
 shiftKernMtrx = shiftKernelMtrx(kernMtrx)
 
-rhs = numpy.zeros(numPts)
+rhs = numpy.zeros(len(ptSet))
 rhs[0] = 1
 
 trueSol = numpy.linalg.solve(kernMtrx,rhs)
