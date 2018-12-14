@@ -201,7 +201,7 @@ The distance of the two inputs, \texttt{ptOne} and \texttt{ptOne}, is computed i
 \label{subsec:kernelMtrcs}
 I collect kernel matrices in the file \texttt{kernelMtrcs.py}. The all take two pointsets as inputs and return a matrix. As an example, the standard kernel matrix: 
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
-def getKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
+def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
     lenPtSetOne = len(ptSetOne)
     lenPtSetTwo = len(ptSetTwo)
     kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
