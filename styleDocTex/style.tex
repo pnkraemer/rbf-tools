@@ -86,20 +86,22 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
 
 \begin{figure}[h]
 \centering
-\tikzstyle{every node}=[draw=black,thick,anchor=west]
-\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{every node}=[draw=black, thick,anchor=west]
+\tikzstyle{module}=[draw=black, fill=blue!10!white]
+\tikzstyle{script}=[draw=black, fill=green!10!white]
 \tikzstyle{optional}=[dashed,fill=gray!50]
 \begin{tikzpicture}[%
 	grow via three points={one child at (0.5,-0.7) and
  	two children at (0.5,-0.7) and (0.5,-1.4)},
 	edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	\node {rbf-tools}
-    		child { node {kernelFcts.py}}		
-    		child { node {kernelMtrcs.py}}
+    		child { node[module] {\texttt{kernelFcts.py}}}		
+    		child { node[module] {\texttt{kernelMtrcs.py}}}
+    		child { node[script] {\texttt{interpolMatern1d.py}}}
     		child { node {figures}}
-   		child { node {ptSets}};
+   		child { node {pointsets}};
 \end{tikzpicture}
-\caption{File structure of \texttt{rbf-tools}}
+\caption{File structure of \texttt{rbf-tools}; modules in blue, scripts in green}
 \label{fig:hierarchy}
 \end{figure}
 
@@ -172,29 +174,31 @@ The following is a list of most naming conventions regarding a unified system:
 \item \textbf{Functions:}
 \begin{itemize}
 \item Each function should serve \textbf{a single} purpose which should be clear from the naming
-\item Each function should be deterministic, i.e. two runs with the same input give the same output; see next point
+\item Each function should be deterministic, i.e. two runs with the same input give the same output (this type of function is called pure function). In my case this often depends on random numbers; see next point
 \end{itemize}
-\item \textbf{Seeds for random numbers:} Each file should always give the same result as long as nothing is changed. Hence, start everything that includes random numbers with \texttt{np.random.seed(15051994)}
+\item \textbf{Seeds for random numbers:} Each file should always give the same result as long as nothing is changed. Hence, start everything that includes random numbers with \texttt{np.random.seed(15051994)} and do not set another seed elsewhere
 \item Readability of a program often trumps performance
 \end{enumerate}
 
-\section{Files}
+\section{Modules}
 
-In the following I describe some files and their standardisations.
+In the following I describe some module files and their conventions.
 
 
 
 \subsection{Kernel functions}
-	\label{sec:kernelFct}
+	\label{subsec:kernelFcts}
 I collect kernel functions in the file \texttt{kernelFcts.py}. They all take two points as inputs and give out a scalar. As an example, the Gaussian:
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
-def gaussKernel(x,y, lengthScale = 1.0):
-    return np.exp(-np.linalg.norm(x-y)**2/(2*lengthScale**2))
+def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
+    distPts = np.linalg.norm(ptOne - ptTwo)
+    return np.exp(-distPts**2/(2*lengthScale**2))
 \end{Verbatim}
 
-The distance of the two inputs, $x$ and $y$, is computed inside the function. The purpose of this is that I can construct kernel matrices in a very easy manner. 
+The distance of the two inputs, \texttt{ptOne} and \texttt{ptOne}, is computed inside the function. The purpose of this is that I can construct kernel matrices in a very easy manner; see subsection \ref{subsec:kernelMtrcs}
 
 \subsection{Kernel matrices}
+\label{subsec:kernelMtrcs}
 I collect kernel matrices in the file \texttt{kernelMtrcs.py}. The all take two pointsets as inputs and return a matrix. As an example, the standard kernel matrix: 
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
 def getKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
@@ -207,6 +211,6 @@ def getKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
     return kernelMtrx
 \end{Verbatim}
 
-The input pointsets need to have the same dimension, but do not need to match in size. The kernel function \texttt{kernelFct} needs to be of the form I described in section \ref{sec:kernelFct}
+The input pointsets need to have the same dimension, but do not need to match in size. The kernel function \texttt{kernelFct} needs to be of the form I described in subsection \ref{subsec:kernelFcts}
 
 \end{document}

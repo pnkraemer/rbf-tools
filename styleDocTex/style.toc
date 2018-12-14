@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {3.1}Good naming practice}{2}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Unification}{3}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Other good practices}{3}{subsection.3.3}
-\contentsline {section}{\numberline {4}Files}{4}{section.4}
+\contentsline {section}{\numberline {4}Modules}{4}{section.4}
 \contentsline {subsection}{\numberline {4.1}Kernel functions}{4}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Kernel matrices}{4}{subsection.4.2}
 \contentsfinish 
