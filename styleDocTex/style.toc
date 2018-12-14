@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Purpose}{1}{section.1}
+\contentsline {section}{\numberline {2}Hierarchy}{1}{section.2}
+\contentsline {section}{\numberline {3}Naming conventions}{1}{section.3}
+\contentsline {subsection}{\numberline {3.1}Good practice}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Unification}{2}{subsection.3.2}
+\contentsline {section}{\numberline {4}Files}{2}{section.4}
+\contentsline {subsection}{\numberline {4.1}Kernel functions}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Kernel matrices}{3}{subsection.4.2}
+\contentsfinish 

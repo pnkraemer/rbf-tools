@@ -1,0 +1,155 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin = 30mm]{geometry}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+
+
+\setlength\parindent{0pt}
+\frenchspacing
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linktoc = all,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\titleformat{\section}{\center\bf \large}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\center\bf \large}{\thesubsection.}{0.5em}{}
+
+\titlecontents{section}
+	[0pt]
+	{ }
+	{\contentsmargin{0pt}\thecontentslabel.\enspace\normalsize}
+	{\contentsmargin{0pt}\normalsize\MakeUppercase}
+	{\titlerule*[.5pc]{}\contentspage}
+	[]
+
+\titlecontents{subsection}
+	[15pt]
+	{ }
+	{\contentsmargin{0pt}\thecontentslabel\enspace\normalsize}
+	{\contentsmargin{0pt}\normalsize\MakeUppercase}
+	{\titlerule*[.5pc]{}\contentspage}
+	[]
+
+
+
+
+
+\setcounter{tocdepth}{2}
+
+\title{Standardisation Guide \\\texttt{rbf-tools}}
+\author{N.K. \\ \texttt{kraemer@ins.uni-bonn.de}}
+\begin{document}
+\maketitle
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.5\textwidth}
+\tableofcontents
+\end{minipage}
+\end{figure}
+
+
+
+
+\section{Purpose}
+
+The purpose of this guide is to standardise anything that needs standardising, like naming conventions, structure conventions and more. 
+The purpose of the entire module is to collect most of the things I have programmed in the past 18 months with regard to radial basis functions. This collection has the purpose of handing it over, eventually, without losing any reusability possibilities--i.e. I should not be the only one who understands this.
+
+
+\section{Hierarchy}
+The hierarchy is supposed to be as flat as possible. The only things that are supposed to be in directories are 
+\begin{enumerate}
+\item Figures
+\item Pointsets
+\end{enumerate}
+
+
+\section{Naming conventions}
+We follow naming conventions with two purposes in mind:
+\begin{enumerate}
+\item Good programming practice
+\item We want as much unification as possible
+\end{enumerate}
+
+\subsection{Good practice}
+The following is a list of most naming conventions regarding good practices:
+\begin{enumerate}
+\item \textbf{Variable naming:} 
+\begin{itemize}
+\item No underscores (privilege of python)
+\item No all-uppercase variables (privilege of python)
+\item Indicate new ``term'' with a single uppercase letter: \texttt{kernelFct}, \texttt{kernelMtrx}, \texttt{ptSet}
+\end{itemize}
+\item \textbf{Function naming:} verb-noun scheme, i.e. \texttt{buildKernelMtrx}, \texttt{getPtSet}, ...
+\item \textbf{File naming:} Each file has to include the following information:
+\begin{enumerate}
+\item \textbf{Name:} e.g. \texttt{'interpolation.py'}
+\item \textbf{Purpose:} Describe the purpose of the file in a single sentence (if that is not possible, think again about starting this file at all)
+\item \textbf{Description:} Describe the method in two or three sentences giving the main keywords
+\item \textbf{Author:} Usually \texttt{N.K. - kraemer@ins.uni-bonn.de}
+\end{enumerate}
+An exemplary header is the following:
+\end{enumerate}
+
+\subsection{Unification}
+The following is a list of most naming conventions regarding a unified system:
+\begin{enumerate}
+\item \textbf{Kernel functions:} We refer to kernel functions and kernel matrices using \texttt{kernel}, not \texttt{kern} nor \texttt{cov}
+\item \textbf{Common Abbreviations:} We use as common abbreviations:
+\begin{itemize}
+\item Point: \texttt{pt}
+\item Pointset: \texttt{ptSet}
+\item Matrix: \texttt{mtrx}
+\item Length of a vector called \texttt{vecAbc}: \texttt{lenVecAbc}
+\item Pointset for evaluation (plotting): \texttt{evalPtSet}
+\item Lebesgue constant: \texttt{lebCnst}
+\end{itemize}
+\end{enumerate}
+
+
+
+
+
+\section{Files}
+
+In the following I describe some files and their standardisations.
+
+
+
+\subsection{Kernel functions}
+	\label{sec:kernelFct}
+We collect kernel functions in the file \texttt{kernelFcts.py}. They all take two points as inputs and give out a scalar. As an example, the Gaussian:
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+def gaussianKernel(x,y, lengthScale = 1.0):
+    return np.exp(-np.linalg.norm(x-y)**2/(2*lengthScale**2))
+\end{Verbatim}
+
+The distance of the two inputs, $x$ and $y$, is computed inside the function. The purpose of this is that we can construct kernel matrices in a very easy manner. 
+
+\subsection{Kernel matrices}
+We collect kernel matrices in the file \texttt{kernelMtrcs.py}. The all take two pointsets as inputs and return a matrix. As an example, the standard kernel matrix: 
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+def getKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
+    lenPtSetOne = len(ptSetOne)
+    lenPtSetTwo = len(ptSetTwo)
+    kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
+    for idx in range(lenPtSetOne):
+        for jdx in range(lenPtSetOne):
+            kernelMtrx[idx,jdx] = kernel(ptSetOne[idx,:], ptSetTwo[jdx,:])
+    return kernelMtrx
+\end{Verbatim}
+
+The input pointsets need to have the same dimension, but do not need to match in size. The kernel function \texttt{kernelFct} needs to be of the form I described in section \ref{sec:kernelFct}
+
+\end{document}
