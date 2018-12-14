@@ -15,8 +15,8 @@ def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
 	distPts = np.linalg.norm(ptOne - ptTwo)
 	return np.exp(-distPts**2/(2.0*lengthScale**2))
 
-def maternKernel(firstPt, secondPt, maternReg, maternScale = 1.0, maternCorrLength = 1.0):
-	distPts = np.linalg.norm(firstPt - secondPt)
+def maternKernel(ptOne, ptTwo, maternReg, maternScale = 1.0, maternCorrLength = 1.0):
+	distPts = np.linalg.norm(ptOne - ptTwo)
 	if distPts <= 0:
 		return maternScale**2
 	else:
@@ -34,4 +34,33 @@ def tpsKernel(ptOne, ptTwo):
 		return 0
 	else:
 		return distPts**2 * np.log(distPts)
+
+# ptOne and ptTwo are 2-dimensional
+def maternKernelDivFree2d(ptOne, ptTwo, maternReg, maternScale = 1.0, maternCorrLength = 1.0):
+	def mAternKernel(pTOne, pTTwo, mAternReg = maternReg, mAternScale = maternScale, mAternCorrLength = maternCorrLength):
+		distPts = np.linalg.norm(pTOne - pTTwo)
+		if distPts <= 0:
+			return maternScale**2
+		else:
+			scaledNormOfPts = np.sqrt(2.0*mAternReg)*distPts / mAternCorrLength
+			return mAternScale**2 * 2**(1.0-mAternReg) / scipy.special.gamma(mAternReg) \
+				* scaledNormOfPts**(mAternReg) * scipy.special.kv(mAternReg, scaledNormOfPts)
+	kernelIm = np.zeros((2,2))
+	diffPts = ptOne - ptTwo
+	distPts = np.linalg.norm(diffPts)
+	if distPts <= 0:
+		kernelIm[0,0] = 0.0
+		kernelIm[1,0] = 0.0
+		kernelIm[0,1] = 0.0
+		kernelIm[1,1] = 0.0
+	else:
+		kernelIm[0,0] = diffPts[0]**2 * mAternKernel(ptOne, ptTwo, mAternReg-2) - mAternKernel(ptOne, ptTwo, mAternReg-1)
+		kernelIm[1,0] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, mAternReg-2) 
+		kernelIm[0,1] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, mAternReg-2) 
+		kernelIm[1,1] = diffPts[1]**2 * mAternKernel(ptOne, ptTwo, mAternReg-2) - mAternKernel(ptOne, ptTwo, mAternReg-1)
+	return kernelIm
+
+
+
+
 
