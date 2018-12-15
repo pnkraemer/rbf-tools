@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.insert(0,'../')
 from kernelFcts import tpsKernelSphere, distSphere
-from ptSetFcts import getPtsFibonacciSphere
+from ptSetFcts import getPtsFibonacciSphere, getPtsRandomSphere
 from kernelMtrcs import buildKernelMtrxCond
 from functools import partial
 
@@ -30,7 +30,7 @@ print ""
 
 dim = 3
 
-ptSet = getPtsFibonacciSphere(numPts)
+ptSet = getPtsFibonacciSphere(numPts, 0)
 
 kernelMtrx = buildKernelMtrxCond(ptSet, ptSet, tpsKernelSphere)
 invKernelMtrx = np.linalg.inv(kernelMtrx)
@@ -46,8 +46,8 @@ for idx in range(numPts):
 distSortPtSet = np.argsort(distFrom17PtSet)
 
 # Check decay of Lagrange function
-numEvalPts = 250
-evalPtSet = getPtsFibonacciSphere(numEvalPts)
+numEvalPts = numPts + 1
+evalPtSet = getPtsFibonacciSphere(numEvalPts, 1)
 evalMtrxLeft = buildKernelMtrxCond(evalPtSet, ptSet, tpsKernelSphere)
 lagFctValues = evalMtrxLeft.dot(invKernelMtrx.dot(rhs))
 distFrom17EvalPtSet = np.zeros(numEvalPts)

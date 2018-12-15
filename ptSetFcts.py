@@ -2,11 +2,19 @@
 #
 # PURPOSE: Collection of different strategies to construct pointsets
 #
-# DESCRIPTION: see PURPOSE;
+# DESCRIPTION: see PURPOSE; all spherical functions act on S^2 \subseteq \R^3
 #
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np
+
+
+def getPtsRandomSphere(size):
+	ptsEucl = np.random.rand(size, 3)
+	ptsSphere = np.zeros((size, 3))
+	for idx in range(size):
+		ptsSphere[idx,:] = ptsEucl[idx,:]/np.linalg.norm(ptsEucl[idx,:])
+	return ptsSphere
 
 # stolen from https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
 def getPtsFibonacciSphere(samples=1,randomize=True):

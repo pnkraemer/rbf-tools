@@ -56,7 +56,7 @@ for idx in range(numPts):
 distSortPtSet = np.argsort(distFrom17PtSet)
 
 # Check decay of Lagrange function
-numEvalPts = 250
+numEvalPts = numPts + 1
 evalPtSet = np.random.rand(numEvalPts, dim)
 evalMtrxLeft = buildKernelMtrxMV(evalPtSet, ptSet, maternKernelFixRegDF)
 lagFctValues = evalMtrxLeft.dot(invKernelMtrx.dot(rhs))

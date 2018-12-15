@@ -106,7 +106,11 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
     			child { node[script] {\texttt{lagDecDivFreeMatern.py}}}
     			child { node[script] {\texttt{lagDecMatern.py}}}
     			child { node[script] {\texttt{lagDecTps.py}}}
+    			child { node[script] {\texttt{lagDecTpsSphere.py}}}
+    			child { node {figures}}
 			}
+			child[missing] {}
+			child[missing] {}
 			child[missing] {}
 			child[missing] {}
 			child[missing] {}
@@ -238,7 +242,7 @@ The input pointsets need to have the same dimension, but do not need to match in
 
 
 \subsection{Pointsets}
-I collect different strategies to construct pointsets such as random points, Halton points and more in the file \texttt{ptSetFcts.py}. The input is always the overall number of points and the desired dimension. The output is always a pointset in $[0,1]^d$, if not specified otherwise. The function names start with \texttt{getPts}, as in for example \texttt{getPtsHalton} or \texttt{getPtsRandom}.
+I collect different strategies to construct pointsets such as random points, Halton points and more in the file \texttt{ptSetFcts.py}. The input is always the overall number of points and the desired dimension. The output is always a pointset in $[0,1]^d$, if not specified otherwise. The function names start with \texttt{getPts}, as in for example \texttt{getPtsHalton} or \texttt{getPtsFibonacci}.
 
 
 
