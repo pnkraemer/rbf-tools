@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.26)  14 DEC 2018 16:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.26)  15 DEC 2018 09:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -659,20 +659,20 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 [2] [3] [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 228.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 228.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 259.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 259.
  (./style.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 228.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 228.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 259.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 259.
 Package rerunfilecheck Info: File `style.out' has not changed.
-(rerunfilecheck)             Checksum: AB68FBFDEE04D337F0F165E9BEA9B9CA;206.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 228.
+(rerunfilecheck)             Checksum: 0C1C5B52FAF9AA2873B657D086106185;249.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 259.
  ) 
 Here is how much of TeX's memory you used:
- 16475 strings out of 493089
- 308744 string characters out of 6134842
- 375495 words of memory out of 5000000
- 19655 multiletter control sequences out of 15000+600000
+ 16482 strings out of 493089
+ 308822 string characters out of 6134842
+ 376503 words of memory out of 5000000
+ 19658 multiletter control sequences out of 15000+600000
  13557 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,54p,425b,891s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -685,10 +685,10 @@ sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
 l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on style.pdf (5 pages, 111753 bytes).
+Output written on style.pdf (5 pages, 113637 bytes).
 PDF statistics:
- 129 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 45 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 139 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

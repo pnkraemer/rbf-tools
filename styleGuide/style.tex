@@ -30,7 +30,7 @@
 
 
 
-\newcommand{\localtextbulletone}{\textcolor{black}{\raisebox{.35ex}{\footnotesize$\bullet$}}}
+\newcommand{\localtextbulletone}{\textcolor{gray!50!black}{\raisebox{.35ex}{\footnotesize$\bullet$}}}
 \renewcommand{\labelitemi}{\localtextbulletone}
 
 
@@ -123,8 +123,8 @@ The following is a list of most naming conventions regarding good practices:
 \begin{itemize}
 \item \textbf{Descriptive naming:} do not use \texttt{x}, \texttt{N} or \texttt{K}, but \texttt{pt}, \texttt{numPts} or \texttt{kernelMtrx}
 \item \textbf{Short names:} do not use \texttt{standardKernelMatrixWithMaternKernel}, but \texttt{kernelMtrx}
-\item No underscores (privilege of python)
-\item No all-uppercase variables (privilege of python)
+\item No underscores (system variables)
+\item No all-uppercase variables (system variables)
 \item Indicate new ``term'' with a single uppercase letter: \texttt{kernelFct}, \texttt{kernelMtrx}, \texttt{ptSet}
 \end{itemize}
 \item \textbf{Commenting:} As long as the variables are named well, I do not need comments except for very few occasions
@@ -219,6 +219,38 @@ The input pointsets need to have the same dimension, but do not need to match in
 
 \subsection{Pointsets}
 I collect different strategies to construct pointsets such as random points, Halton points and more in the file \texttt{ptSetFcts.py}. The input is always the overall number of points and the desired dimension. The output is always a pointset in $[0,1]^d$, if not specified otherwise. The function names start with \texttt{getPts}, as in for example \texttt{getPtsHalton} or \texttt{getPtsRandom}.
+
+
+
+\section{Plotting}
+
+Plots are a-priori quite ugly. Every plot needs to have:
+\begin{itemize}
+\item Axes labels
+\item Title
+\item Grid
+\end{itemize}
+On top of that, for aesthetic purposes, we follow:
+\begin{enumerate}
+\item Change font size to 18 by adding
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 18})
+\end{Verbatim}
+to the top of each script
+\item Increase line width and markersize, e.g. \verb+linewidth = 2+ and \verb+markersize = 8+
+\item Main color is \texttt{darkslategray} which is a decent tradeoff between color and simplicity
+\item Put the opacity value to \verb+alpha = 0.8+ which is less aggressive
+\end{enumerate}
+
+
+
+
+
+
+
+
+
 
 
 
