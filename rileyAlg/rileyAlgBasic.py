@@ -10,6 +10,9 @@
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np
+
+import sys
+sys.path.insert(0,'../')
 from ptSetFcts import getPtsHalton
 from kernelMtrcs import buildKernelMtrx, buildKernelMtrxShift
 from kernelFcts import expKernel

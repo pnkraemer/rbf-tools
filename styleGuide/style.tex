@@ -91,19 +91,29 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
 \tikzstyle{script}=[draw=black, fill=green!10!white]
 \tikzstyle{optional}=[dashed,fill=gray!50]
 \begin{tikzpicture}[%
-	grow via three points={one child at (0.5,-0.7) and
- 	two children at (0.5,-0.7) and (0.5,-1.4)},
-	edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  	grow via three points={one child at (0.5,-0.7) and
+  	two children at (0.5,-0.7) and (0.5,-1.4)},
+  	edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]	
 	\node {rbf-tools}
     		child { node[module] {\texttt{kernelFcts.py}}}		
     		child { node[module] {\texttt{kernelMtrcs.py}}}
     		child { node[module] {\texttt{ptSetFcts.py}}}
-    		child { node[script] {\texttt{interpolMatern1d.py}}}
-    		child { node[script] {\texttt{lagDecMatern.py}}}
-    		child { node[script] {\texttt{lagDecDivFreeMatern.py}}}
-    		child { node[script] {\texttt{rileyAlgBasic.py}}}
-    		child { node[script] {\texttt{rileyAlgResBased.py}}}
-    		child { node {figures}}
+		child { node {interpolation}
+    			child { node[script] {\texttt{interpolMatern1d.py}}}
+			}
+			child[missing] {}
+		child { node {lagFctDecay}
+    			child { node[script] {\texttt{lagDecDivFreeMatern.py}}}
+    			child { node[script] {\texttt{lagDecMatern.py}}}
+			}
+			child[missing] {}
+			child[missing] {}
+		child { node {rileyAlg}
+    			child { node[script] {\texttt{rileyAlgBasic.py}}}
+    			child { node[script] {\texttt{rileyAlgResBased.py}}}
+			}
+			child[missing] {}
+			child[missing] {}
     		child { node {styleGuide}};
 \end{tikzpicture}
 \caption{File structure of \texttt{rbf-tools}; modules in blue, scripts in green}

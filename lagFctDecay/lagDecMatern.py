@@ -9,11 +9,14 @@
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np 
+import matplotlib.pyplot as plt
+
+import sys
+sys.path.insert(0,'../')
 from kernelFcts import maternKernel
-from ptSets import getPtsHalton
+from ptSetFcts import getPtsHalton
 from kernelMtrcs import buildKernelMtrx
 from functools import partial
-import matplotlib.pyplot as plt
 
 
 
