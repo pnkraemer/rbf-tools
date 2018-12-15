@@ -62,7 +62,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-The purpose of this guide is to collect any standardisation I have come up with over time. On top of that, I mention other guidelines, like naming conventions, structure conventions and more. 
+This guide collects any standardisation I have come up with over time. On top of that, I mention other guidelines, like naming conventions, structure conventions and more, most of which I have learned the hard way.
 \end{abstract}
 \begin{figure}[h]
 \centering
@@ -101,6 +101,8 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
     		child { node[script] {\texttt{interpolMatern1d.py}}}
     		child { node[script] {\texttt{lagDecMatern.py}}}
     		child { node[script] {\texttt{lagDecDivFreeMatern.py}}}
+    		child { node[script] {\texttt{rileyAlgBasic.py}}}
+    		child { node[script] {\texttt{rileyAlgResBased.py}}}
     		child { node {figures}}
     		child { node {styleGuide}};
 \end{tikzpicture}
@@ -180,14 +182,13 @@ The following is a list of most naming conventions regarding a unified system:
 \item Each function should be deterministic, i.e. two runs with the same input give the same output (this type of function is called pure function). In my case this often depends on random numbers; see next point
 \end{itemize}
 \item \textbf{Seeds for random numbers:} Each file should always give the same result as long as nothing is changed. Hence, start everything that includes random numbers with \texttt{np.random.seed(15051994)} and do not set another seed elsewhere
-\item Readability of a program often trumps performance
-\item \textbf{Parameters:} If a simulation is to be run with different parameters, let the script ask for the parameter as in
+\item \textbf{Readability:} Readability of a program often trumps slight performance improvements
+\item \textbf{Parameters:} If a simulation is to be run with different parameters, let the script ask for the parameter as in:
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
-def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
-    distPts = np.linalg.norm(ptOne - ptTwo)
-    return np.exp(-distPts**2/(2*lengthScale**2))
+print "\nWhich regularity of the Matern function? (e.g. 2.0)"
+maternReg = input("Enter: ")
 \end{Verbatim}
- Do not change them in the script--it turned out to be quite confusing
+Do not change them in the script--it turned out to be quite confusing in the past
 \end{enumerate}
 
 \section{Modules}

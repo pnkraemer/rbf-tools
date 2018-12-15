@@ -10,6 +10,18 @@ import numpy as np
 np.random.seed(15051994)
 np.set_printoptions(precision = 2)
 
+def buildKernelMtrxShift(ptSetOne, ptSetTwo, kernelFct, shiftPar):
+	lenPtSetOne = len(ptSetOne)
+	lenPtSetTwo = len(ptSetTwo)
+	if lenPtSetOne != lenPtSetTwo:
+		print "The pointsets do not align... return 0"
+		return 0
+	kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
+	for idx in range(lenPtSetOne):
+		for jdx in range(lenPtSetTwo):
+				kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
+	return kernelMtrx + shiftPar * np.eye(lenPtSetOne)
+
 def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
