@@ -3,7 +3,7 @@
 # PURPOSE: Check the influence of the shifts 
 # and accuracy onto Riley's Algorithm
 
-# DESCRIPTION: I solve a system involving a Gaussian kernel matrix 
+# DESCRIPTION: I solve a system involving an exponential kernel matrix 
 # and iteratively compute the approximations with Riley's algorithms
 # (as in (2) on slide 42 on https://drna.padovauniversitypress.it/system/files/papers/Fasshauer-2008-Lecture3.pdf)
 
@@ -12,7 +12,7 @@
 import numpy as np
 from ptSetFcts import getPtsHalton
 from kernelMtrcs import buildKernelMtrx, buildKernelMtrxShift
-from kernelFcts import gaussKernel
+from kernelFcts import expKernel
 
 import scipy.special
 
@@ -43,8 +43,8 @@ print ""
 ptSet = getPtsHalton(numPts,dim)
 
 
-kernelMtrx = buildKernelMtrx(ptSet,ptSet, gaussKernel)
-kernelMtrxShift = buildKernelMtrxShift(ptSet,ptSet, gaussKernel, rileyShift)
+kernelMtrx = buildKernelMtrx(ptSet,ptSet, expKernel)
+kernelMtrxShift = buildKernelMtrxShift(ptSet,ptSet, expKernel, rileyShift)
 
 rhs = np.zeros(len(ptSet))
 rhs[0] = 1

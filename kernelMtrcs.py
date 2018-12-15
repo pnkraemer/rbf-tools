@@ -20,7 +20,7 @@ def buildKernelMtrxShift(ptSetOne, ptSetTwo, kernelFct, shiftPar):
 	for idx in range(lenPtSetOne):
 		for jdx in range(lenPtSetTwo):
 				kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
-	return kernelMtrx + shiftPar * np.eye(lenPtSetOne)
+	return kernelMtrx + shiftPar * np.identity(lenPtSetOne)
 
 def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
 	lenPtSetOne = len(ptSetOne)
