@@ -11,6 +11,15 @@ from __future__ import division
 import numpy as np
 import scipy.special
 
+def distSphere(ptOne, ptTwo):
+	return 1 - ptOne.dot(ptTwo)
+
+
+
+
+
+
+
 def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
 	distPts = np.linalg.norm(ptOne - ptTwo)
 	return np.exp(-distPts**2/(2.0*lengthScale**2))
@@ -30,6 +39,13 @@ def expKernel(ptOne, ptTwo, lengthScale = 1.0):
 
 def tpsKernel(ptOne, ptTwo):
 	distPts = np.linalg.norm(ptOne - ptTwo)
+	if distPts <= 0:
+		return 0
+	else:
+		return distPts**2 * np.log(distPts)
+
+def tpsKernelSphere(ptOne, ptTwo):
+	distPts = distSphere(ptOne, ptTwo)
 	if distPts <= 0:
 		return 0
 	else:

@@ -34,7 +34,7 @@ def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
 def buildKernelMtrxCond(ptSetOne, ptSetTwo, kernelFct, polOrder = 1):
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
-	dim = ptSetOne.shape[1]
+	dim = len(ptSetOne.T)
 	kernelMtrx = np.zeros((lenPtSetOne + dim *polOrder + 1, lenPtSetTwo + dim *polOrder + 1))
 	for idx in range(lenPtSetOne):
 		for jdx in range(lenPtSetTwo):

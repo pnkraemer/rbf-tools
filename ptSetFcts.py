@@ -2,11 +2,31 @@
 #
 # PURPOSE: Collection of different strategies to construct pointsets
 #
-# DESCRIPTION: see PURPOSE; so far only the Euclidean case
+# DESCRIPTION: see PURPOSE;
 #
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np
+
+# stolen from https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
+def getPtsFibonacciSphere(samples=1,randomize=True):
+    rnd = 1.0
+    if randomize:
+        rnd = np.random.rand() * samples
+    points = []
+    offset = 2.0/samples
+    increment = np.pi * (3.0 - np.sqrt(5.0));
+    for idx in range(samples):
+        y = ((idx * offset) - 1) + (offset / 2);
+        r = np.sqrt(1 - y**2)
+        phi = ((idx + rnd) % samples) * increment
+        x = np.cos(phi) * r
+        z = np.sin(phi) * r
+        points.append([x,y,z])
+    return np.array(points)
+
+
+
 # stolen from https://laszukdawid.com/2017/02/04/halton-sequence-in-python/
 def getPtsHalton(size, dim):
 	def nextPrime():
