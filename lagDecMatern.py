@@ -26,10 +26,14 @@ numPts = input("Enter: ")
 
 print "\nWhich regularity of the Matern function? (e.g. 2.0)"
 maternReg = input("Enter: ")
+
+print "\nWhich spatial dimension? (e.g. 2)"
+dim = input("Enter: ")
+
 print ""
+
 maternKernelFixReg = partial(maternKernel, maternReg = maternReg)
 
-dim = 2
 ptSet = getPtsHalton(numPts, dim)
 
 kernelMtrx = buildKernelMtrx(ptSet, ptSet, maternKernelFixReg)
@@ -62,7 +66,8 @@ plt.grid()
 plt.xlabel("Distance to 17th point")
 plt.ylabel("Absolute value of coefficient")
 plt.title("Lagrange coefficient decay")
-plt.savefig("figures/decLagCoeff_250_2.png")
+plt.legend({"N = %i, nu = %.1f, d = %i"%(numPts, maternReg, dim)})
+plt.savefig("figures/lagDecMatern/lagCoeff_%i_%.1f.png"%(numPts, maternReg))
 plt.show()
 
 
@@ -72,8 +77,9 @@ plt.semilogy(distFrom17EvalPtSet[distSortEvalPtSet], lagFctValues[distSortEvalPt
 plt.grid()
 plt.xlabel("Distance to 17th point")
 plt.ylabel("Absolute value of function value")
+plt.legend({"N = %i, nu = %.1f, d = %i"%(numPts, maternReg, dim)})
 plt.title("Lagrange function decay")
-plt.savefig("figures/decLagFct_250_2.png")
+plt.savefig("figures/lagDecMatern/lagFct_%i_%.1f.png"%(numPts, maternReg))
 plt.show()
 
 

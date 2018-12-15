@@ -54,10 +54,10 @@ def maternKernelDivFree2d(ptOne, ptTwo, maternReg, maternScale = 1.0, maternCorr
 		kernelIm[0,1] = 0.0
 		kernelIm[1,1] = 0.0
 	else:
-		kernelIm[0,0] = diffPts[0]**2 * mAternKernel(ptOne, ptTwo, mAternReg-2) - mAternKernel(ptOne, ptTwo, mAternReg-1)
-		kernelIm[1,0] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, mAternReg-2) 
-		kernelIm[0,1] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, mAternReg-2) 
-		kernelIm[1,1] = diffPts[1]**2 * mAternKernel(ptOne, ptTwo, mAternReg-2) - mAternKernel(ptOne, ptTwo, mAternReg-1)
+		kernelIm[0,0] = diffPts[0]**2 * mAternKernel(ptOne, ptTwo, maternReg-2) - mAternKernel(ptOne, ptTwo, maternReg-1)
+		kernelIm[1,0] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, maternReg-2) 
+		kernelIm[0,1] = diffPts[0]*diffPts[1] * mAternKernel(ptOne, ptTwo, maternReg-2) 
+		kernelIm[1,1] = diffPts[1]**2 * mAternKernel(ptOne, ptTwo, maternReg-2) - mAternKernel(ptOne, ptTwo, maternReg-1)
 	return kernelIm
 
 

@@ -181,6 +181,13 @@ The following is a list of most naming conventions regarding a unified system:
 \end{itemize}
 \item \textbf{Seeds for random numbers:} Each file should always give the same result as long as nothing is changed. Hence, start everything that includes random numbers with \texttt{np.random.seed(15051994)} and do not set another seed elsewhere
 \item Readability of a program often trumps performance
+\item \textbf{Parameters:} If a simulation is to be run with different parameters, let the script ask for the parameter as in
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
+    distPts = np.linalg.norm(ptOne - ptTwo)
+    return np.exp(-distPts**2/(2*lengthScale**2))
+\end{Verbatim}
+ Do not change them in the script--it turned out to be quite confusing
 \end{enumerate}
 
 \section{Modules}
@@ -226,25 +233,25 @@ I collect different strategies to construct pointsets such as random points, Hal
 
 Every plot needs to have:
 \begin{itemize}
-\item Axes labels: not ``\texttt{x}'' and ``\texttt{y}'' but something like ``\texttt{Distance to center}'' and ``\texttt{Lagrange function value}''
-\item Title: Keep it short, like ``\texttt{Lagrange function decay}''
-\item Grid: necessary as soon as numerical information is supposed to be taken from the plot
+\item \textbf{Axes labels:} not ``\texttt{x}'' and ``\texttt{y}'' but something like ``\texttt{Distance to center}'' and ``\texttt{Lagrange function value}''
+\item \textbf{Title:} Keep it short, like ``\texttt{Lagrange function decay}''
+\item \textbf{Grid:} Necessary as soon as numerical information is supposed to be taken from the plot
+\item \textbf{Legend:} Put details in the legend, like number of points or underlying regularity
 \end{itemize}
 On top of that, for aesthetic purposes, I tend to follow:
 \begin{enumerate}
-\item Change font size to e.g. 18 by adding
+\item \textbf{Font size:} Change font size to e.g. 18 by adding
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
 plt.rcParams.update({'font.size': 18})
 \end{Verbatim}
 to the top of each script
-\item Increase line width and markersize, e.g. \verb+linewidth = 2+ and \verb+markersize = 8+
-\item Main color is \texttt{darkslategray} which seems like a decent tradeoff between color and simplicity; as a complementary color I use \texttt{red} which is a tad lighter than its true complementary color
-\item Put the opacity value to \verb+alpha = 0.8+ which is less aggressive
-\item Save plots into files automatically via for example
+\item \textbf{Line width:} Increase line width and markersize, e.g. \verb+linewidth = 2+ and \verb+markersize = 8+
+\item \textbf{Color:} Main color is \texttt{darkslategray} which seems like a decent tradeoff between color and simplicity; as a complementary color I use \texttt{red} which is a tad lighter than its true complementary color
+\item \textbf{Opacity:} Put the opacity value to \verb+alpha = 0.8+ which is less aggressive
+\item \textbf{Saving:} Save plots into files automatically via for example
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
-plt.savefig("figures/decLagFct_250_2.png")
+plt.savefig("figures/titleOfScript/fctValues.png")
 \end{Verbatim}
-which is an example, taken from `\texttt{lagDecMatern.py}'.
 
 \end{enumerate}
 
