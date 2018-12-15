@@ -35,7 +35,7 @@ def tpsKernel(ptOne, ptTwo):
 	else:
 		return distPts**2 * np.log(distPts)
 
-# ptOne and ptTwo are 2-dimensional
+# ptOne and ptTwo are 2-dimensional vectors!
 def maternKernelDivFree2d(ptOne, ptTwo, maternReg, maternScale = 1.0, maternCorrLength = 1.0):
 	def mAternKernel(pTOne, pTTwo, mAternReg = maternReg, mAternScale = maternScale, mAternCorrLength = maternCorrLength):
 		distPts = np.linalg.norm(pTOne - pTTwo)
