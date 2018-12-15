@@ -21,13 +21,15 @@ np.random.seed(15051994)
 np.set_printoptions(precision = 2)
 plt.rcParams.update({'font.size': 16})
 
+print "\nHow many points shall we compute on? (>25, e.g. 250)"
+numPts = input("Enter: ")
 
-
-maternReg = 2.0
+print "\nWhich regularity of the Matern function? (e.g. 2.0)"
+maternReg = input("Enter: ")
+print ""
 maternKernelFixReg = partial(maternKernel, maternReg = maternReg)
 
 dim = 2
-numPts = 250
 ptSet = getPtsHalton(numPts, dim)
 
 kernelMtrx = buildKernelMtrx(ptSet, ptSet, maternKernelFixReg)

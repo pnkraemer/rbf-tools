@@ -224,23 +224,28 @@ I collect different strategies to construct pointsets such as random points, Hal
 
 \section{Plotting}
 
-Plots are a-priori quite ugly. Every plot needs to have:
+Every plot needs to have:
 \begin{itemize}
-\item Axes labels
-\item Title
-\item Grid
+\item Axes labels: not ``\texttt{x}'' and ``\texttt{y}'' but something like ``\texttt{Distance to center}'' and ``\texttt{Lagrange function value}''
+\item Title: Keep it short, like ``\texttt{Lagrange function decay}''
+\item Grid: necessary as soon as numerical information is supposed to be taken from the plot
 \end{itemize}
-On top of that, for aesthetic purposes, we follow:
+On top of that, for aesthetic purposes, I tend to follow:
 \begin{enumerate}
-\item Change font size to 18 by adding
+\item Change font size to e.g. 18 by adding
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
-import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 18})
 \end{Verbatim}
 to the top of each script
 \item Increase line width and markersize, e.g. \verb+linewidth = 2+ and \verb+markersize = 8+
-\item Main color is \texttt{darkslategray} which is a decent tradeoff between color and simplicity
+\item Main color is \texttt{darkslategray} which seems like a decent tradeoff between color and simplicity; as a complementary color I use \texttt{red} which is a tad lighter than its true complementary color
 \item Put the opacity value to \verb+alpha = 0.8+ which is less aggressive
+\item Save plots into files automatically via for example
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+plt.savefig("figures/decLagFct_250_2.png")
+\end{Verbatim}
+which is an example, taken from `\texttt{lagDecMatern.py}'.
+
 \end{enumerate}
 
 
