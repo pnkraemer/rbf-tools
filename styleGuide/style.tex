@@ -120,6 +120,22 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
 			}
 			child[missing] {}
 			child[missing] {}
+		child { node {collSphere}
+    			child { node[script] {\texttt{collSymmSphere.py}}}
+    			child { node[script] {\texttt{collUnsymmSphere.py}}}
+			}
+			child[missing] {}
+			child[missing] {}
+		child { node {locLagPrecond}
+    			child { node[script] {\texttt{locLagPrecSymmColl.py}}}
+    			child { node[script] {\texttt{locLagPrecUnsymmColl.py}}}
+    			child { node[script] {\texttt{locLagPrecTpsTwo.py}}}
+    			child { node[script] {\texttt{locLagPrecTpsThree.py}}}
+			}
+			child[missing] {}
+			child[missing] {}
+			child[missing] {}
+			child[missing] {}
     		child { node {styleGuide}};
 \end{tikzpicture}
 \caption{File structure of \texttt{rbf-tools}; modules in blue, scripts in green}
@@ -183,6 +199,7 @@ The following is a list of most naming conventions regarding a unified system:
 \item Pointset for evaluation (plotting): \texttt{evalPtSet}
 \item Number of evaluation points: \texttt{numEvalPts}
 \item Lebesgue constant: \texttt{lebCnst}
+\item Expression: \texttt{expr} (as in \texttt{exprSol}) 
 \item Gaussian: \texttt{gauss} (as in \texttt{gaussKernel} instead of \texttt{gaussianKernel})
 \end{itemize}
 \end{enumerate}

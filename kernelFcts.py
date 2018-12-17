@@ -18,8 +18,6 @@ def distSphere(ptOne, ptTwo):
 
 
 
-
-
 def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
 	distPts = np.linalg.norm(ptOne - ptTwo)
 	return np.exp(-distPts**2/(2.0*lengthScale**2))

@@ -7,6 +7,8 @@
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np
+from kernelFcts import distSphere 
+from kernelMtrces import buildKernelMtrx
 
 
 def getPtsRandomSphere(size):
@@ -17,7 +19,7 @@ def getPtsRandomSphere(size):
 	return ptsSphere
 
 # stolen from https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
-def getPtsFibonacciSphere(samples=1,randomize=True):
+def getPtsFibonacciSphere(samples=1,randomize=False):
     rnd = 1.0
     if randomize:
         rnd = np.random.rand() * samples
@@ -61,5 +63,26 @@ def getPtsHalton(size, dim):
 		base = next(primeGen)
 		seq.append([vanDerCorput(i, base) for i in range(size)])
 	return np.array(seq).T
+
+def getApproxFillDistanceSphere(ptSet, numSamp = 1000, distFct = distSphere):
+	evalPtSet = getPtsFibonacciSphere(numSamp, 1)
+	distMtrx = buildKernelMtrx(ptSet, evalPtSet, distFct)
+	return np.amax(distMtrx.min(axis = 0))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
