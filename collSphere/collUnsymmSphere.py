@@ -10,11 +10,6 @@
 
 
 
-# 1
-# x, y, z, 
-# x^2-y^2, 2z^2-x^2-y^2, xy, xz, yz
-# x^3, y^3, z^3, x^2y, x^2z, y^2x, y^2z, z^2x, z^2y
-
 from __future__ import division
 import numpy as np
 import scipy.io as sp
@@ -24,10 +19,10 @@ import matplotlib.pyplot as plt
 from functools import partial
 import sys
 sys.path.insert(0,'../')
+
 from kernelFcts import distSphere, tpsKernelSphere
 from ptSetFcts import getPtsFibonacciSphere
 from kernelMtrcs import buildCollMtrxUnsymmCond, buildKernelMtrxCondSph2
-
 
 
 np.set_printoptions(precision=1)
@@ -50,26 +45,27 @@ def lapBelOp(exprFct, pdeParam):
 	return -exprLapBelCart + pdeParam**2 * exprFct
 
 
-def lapBelTps(pt1, pt2):
-	distPts = distSphere(pt1, pt2, pDeParam)
+def lapBelTps(pt1, pt2, pDeParam = 1.0):
+	distPts = distSphere(pt1, pt2)
+	if distPts >= 1:
+		return 
 	return -2*distPts * (distPts + 2*(distPts-1)*np.log(1 - distPts) - 1) -\
 		(distPts**2-1)*(2*np.log(1-distPts)+3) +\
 		pDeParam*(1-distPts)*(distPts-1)*np.log(1-distPts)
 
-
 exprTrueSol = sympy.exp(sympy.Symbol('x')) + (1 - sympy.Symbol('x'))
-trueSol = sympy.lambdify((pt1, pt2, pt3), exprTrueSol, modules=['numpy']) 
+trueSol = sympy.lambdify((sympy.Symbol('x'), sympy.Symbol('y'), sympy.Symbol('z')), exprTrueSol, modules=['numpy']) 
 pdeParam = 1.0
 
-lapBelTpsParam = partial(diffTps, pDeParam = pdeParam)
+lapBelTpsParam = partial(lapBelTps, pDeParam = pdeParam)
 
 numPts = 50
 ptSet = getPtsFibonacciSphere(numPts)
-collMtrx = buildCollMtrxUnsymmLapBelCondOrd2(ptSet, ptSet, lapBelTpsParam, pdeParam)
+collMtrx = buildCollMtrxUnsymmCond(ptSet, ptSet, lapBelTpsParam, pdeParam)
 
 
 exprRhs = lapBelOp(exprTrueSol, pdeParam)
-rhsFct = sympy.lambdify((pt1, pt2, pt3), exprRhs, modules =['numpy'])
+rhsFct = sympy.lambdify((sympy.Symbol('x'), sympy.Symbol('y'), sympy.Symbol('z')), exprRhs, modules =['numpy'])
 rhs = np.zeros(numPts + 9)
 for idx in range(numPts):
 	rhs[idx] = rhsFct(ptSet[idx,0], ptSet[idx,1], ptSet[idx,2])

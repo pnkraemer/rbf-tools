@@ -8,7 +8,7 @@
 
 import numpy as np
 from kernelFcts import distSphere 
-from kernelMtrces import buildKernelMtrx
+from kernelMtrcs import buildKernelMtrx
 
 
 def getPtsRandomSphere(size):
