@@ -83,9 +83,8 @@ def lapBelTps3Kernel(pt1, pt2, pDeParam = 1.0):
 	if distPts <= 0:
 		return 0
 	else:
-		s = 1 - distPts
-		lapBel = 2*s*(s - 1)**2*(3*np.log(-s + 1) + 1) + (s**2 - 1)*(5*s + 6*(s - 1)*np.log(-s + 1) - 5)
-		return -lapBel + pDeParam**2 * (1 - s)**3 * np.log(1-s)
+		lapBel = 2*(1 - distPts)*(- distPts)**2*(3*np.log(distPts) + 1) + ((1 - distPts)**2 - 1)*(5*(1 - distPts) + 6*(- distPts)*np.log(distPts) - 5)
+		return -lapBel + pDeParam**2 * (distPts)**3 * np.log(distPts)
 
 # Lap.-Bel. Operator of (1-s)**4 * log(1-s)
 def lapBelTps4Kernel(pt1, pt2, pDeParam = 1.0):
@@ -93,9 +92,8 @@ def lapBelTps4Kernel(pt1, pt2, pDeParam = 1.0):
 	if distPts <= 0:
 		return 0
 	else:
-		s = 1 - distPts
-		lapBel = -(s - 1)**2*(2*s*(s - 1)*(4*np.log(-s + 1) + 1) + (s**2 - 1)*(12*np.log(-s + 1) + 7))
-		return -lapBel +pDeParam**2 * (1 - s)**4 * np.log(1-s)
+		lapBel = -(- distPts)**2*(2*(1 - distPts)*(- distPts)*(4*np.log(distPts) + 1) + ((1 - distPts)**2 - 1)*(12*np.log(distPts) + 7))
+		return -lapBel +pDeParam**2 * (distPts)**4 * np.log(distPts)
 
 # Lap.-Bel. Operator of (Lap.-Bel. Operator of (1-s)**4 * log(1-s))
 def secLapBelTps4Kernel(pt1, pt2, pDeParam = 1.0):
@@ -103,10 +101,9 @@ def secLapBelTps4Kernel(pt1, pt2, pDeParam = 1.0):
 	if distPts <= 0:
 		return 0
 	else:
-		s = 1 - distPts
-		lapBel = -(s - 1)**2*(2*s*(s - 1)*(4*np.log(-s + 1) + 1) + (s**2 - 1)*(12*np.log(-s + 1) + 7))
-		secLapBel = 400*s**4*np.log(-s + 1) + 360*s**4 - 576*s**3*np.log(-s + 1) - 416*s**3 - 96*s**2*np.log(-s + 1) - 240*s**2 + 320*s*np.log(-s + 1) + 288*s - 48*np.log(-s + 1) + 8
-		return secLapBel -2* pDeParam**2 * lapBel + pDeParam**4 * (1 - s)**4 * np.log(1-s)
+		lapBel = -(- distPts)**2*(2*(1 - distPts)*(- distPts)*(4*np.log(distPts) + 1) + ((1 - distPts)**2 - 1)*(12*np.log(distPts) + 7))
+		secLapBel = 400*(1 - distPts)**4*np.log(distPts) + 360*(1 - distPts)**4 - 576*(1 - distPts)**3*np.log(distPts) - 416*(1 - distPts)**3 - 96*(1 - distPts)**2*np.log(distPts) - 240*(1 - distPts)**2 + 320*(1 - distPts)*np.log(distPts) + 288*(1 - distPts) - 48*np.log(distPts) + 8
+		return secLapBel -2* pDeParam**2 * lapBel + pDeParam**4 * (distPts)**4 * np.log(distPts)
 
 
 
