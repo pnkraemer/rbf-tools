@@ -107,9 +107,7 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
     			child { node[script] {\texttt{lagDecMatern.py}}}
     			child { node[script] {\texttt{lagDecTps.py}}}
     			child { node[script] {\texttt{lagDecTpsSphere.py}}}
-    			child { node {figures}}
 			}
-			child[missing] {}
 			child[missing] {}
 			child[missing] {}
 			child[missing] {}
@@ -263,12 +261,20 @@ I collect different strategies to construct pointsets such as random points, Hal
 
 \section{Plotting}
 
-Every plot needs to have:
+Visualisations (plots) tend to be more informative than printed results. The reason is that a plot can be stored easily and therefore, the information does not get lost. Every plot needs to have:
 \begin{itemize}
 \item \textbf{Axes labels:} not ``\texttt{x}'' and ``\texttt{y}'' but something like ``\texttt{Distance to center}'' and ``\texttt{Lagrange function value}''
 \item \textbf{Title:} Keep it short, like ``\texttt{Lagrange function decay}''
 \item \textbf{Grid:} Necessary as soon as numerical information is supposed to be taken from the plot
-\item \textbf{Legend:} Put details in the legend, like number of points or underlying regularity
+\item \textbf{Legend:} Put details in the legend, like number of points or underlying regularity; it seems easiest to label each plot as in:
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+plt.semilogy(..., linewidth = 2, label = "acc = %.1e"%(rileyAcc))
+\end{Verbatim}
+and then to add a legend via
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+plt.legend()
+\end{Verbatim}
+The reason is that this way, the legend entries are consistent with the data.
 \end{itemize}
 On top of that, for aesthetic purposes, I tend to follow:
 \begin{enumerate}
