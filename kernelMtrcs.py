@@ -7,6 +7,8 @@
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import numpy as np
+from miscFcts import sph00, sph10, sph11, sph12, sph20, sph21, sph22, sph23, sph24, sph30, sph31, sph32, sph33, sph34, sph35, sph36
+
 np.random.seed(15051994)
 np.set_printoptions(precision = 2)
 
@@ -50,26 +52,21 @@ def buildKernelMtrxCond(ptSetOne, ptSetTwo, kernelFct, polOrder = 1):
 				kernelMtrx[lenPtSetOne + dim*jdx + kdx + 1, idx] = ptSetTwo[idx,kdx]**(jdx+1)
 	return kernelMtrx
 
+
+
+# MV = matrix valued 
+def buildKernelMtrxMV(ptSetOne, ptSetTwo, kernelFctMV, imageDim = 2):
+	lenPtSetOne = len(ptSetOne)
+	lenPtSetTwo = len(ptSetTwo)
+	kernelMtrxMV = np.zeros((imageDim*lenPtSetOne, imageDim*lenPtSetTwo))
+	for idx in range(lenPtSetOne):
+		for jdx in range(lenPtSetTwo):
+			kernelMtrxMV[(imageDim*idx):(imageDim*(idx+1)), (imageDim*jdx):(imageDim*(jdx+1))] = kernelFctMV(ptSetOne[idx,:], ptSetTwo[jdx,:])
+	return kernelMtrxMV
+
+
 # Kernelmatrix with third order thin-plate spline on sphere
 def buildSpecialKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
-	def sph00(pt1, pt2, pt3):
-		return 1
-	def sph10(pt1, pt2, pt3):
-		return pt1
-	def sph11(pt1, pt2, pt3):
-		return pt2
-	def sph12(pt1, pt2, pt3):
-		return pt3
-	def sph20(pt1, pt2, pt3):
-		return pt1*pt2
-	def sph21(pt1, pt2, pt3):
-		return pt2*pt3
-	def sph22(pt1, pt2, pt3):
-		return 2*pt3**2 - pt1**2 - pt2**2
-	def sph23(pt1, pt2, pt3):
-		return pt1*pt3
-	def sph24(pt1, pt2, pt3):
-		return pt1**2 - pt2**2
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
 	dim = len(ptSetOne.T)
@@ -100,24 +97,6 @@ def buildSpecialKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
 
 # Unsymmetric collocation matrix with 3rd order thin-plate spline on sphere
 def buildSpecialUnsCollMtrx(ptSetOne, ptSetTwo, diffKernelFct, pdeParam = 1.0):
-	def sph00(pt1, pt2, pt3):
-		return 1.0
-	def sph10(pt1, pt2, pt3):
-		return pt1
-	def sph11(pt1, pt2, pt3):
-		return pt2
-	def sph12(pt1, pt2, pt3):
-		return pt3
-	def sph20(pt1, pt2, pt3):
-		return pt1*pt2
-	def sph21(pt1, pt2, pt3):
-		return pt2*pt3
-	def sph22(pt1, pt2, pt3):
-		return 2*pt3**2 - pt1**2 - pt2**2
-	def sph23(pt1, pt2, pt3):
-		return pt1*pt3
-	def sph24(pt1, pt2, pt3):
-		return pt1**2 - pt2**2
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
 	dim = len(ptSetOne.T)
@@ -152,38 +131,6 @@ def buildSpecialUnsCollMtrx(ptSetOne, ptSetTwo, diffKernelFct, pdeParam = 1.0):
 
 # Symmetric collocation matrix with 4rd order thin-plate spline on sphere
 def buildSpecialSymCollMtrx(ptSetOne, ptSetTwo, secDiffKernelFct, pdeParam = 1.0):
-	def sph00(pt1, pt2, pt3):
-		return 1.0
-	def sph10(pt1, pt2, pt3):
-		return pt1
-	def sph11(pt1, pt2, pt3):
-		return pt2
-	def sph12(pt1, pt2, pt3):
-		return pt3
-	def sph20(pt1, pt2, pt3):
-		return pt1*pt2
-	def sph21(pt1, pt2, pt3):
-		return pt2*pt3
-	def sph22(pt1, pt2, pt3):
-		return 2*pt3**2 - pt1**2 - pt2**2
-	def sph23(pt1, pt2, pt3):
-		return pt1*pt3
-	def sph24(pt1, pt2, pt3):
-		return pt1**2 - pt2**2
-	def sph30(pt1, pt2, pt3):
-		return (3*pt1**2 - pt2**2)*pt2
-	def sph31(pt1, pt2, pt3):
-		return pt1*pt2*pt3
-	def sph32(pt1, pt2, pt3):
-		return pt2*(4*pt3**2 - pt1**2 - pt2**2)
-	def sph33(pt1, pt2, pt3):
-		return pt3*(2*pt3**2 - 3*pt1**2 - 3*pt2**2)
-	def sph34(pt1, pt2, pt3):
-		return pt1*(4*pt3**2 - pt1**2 - pt2**2)
-	def sph35(pt1, pt2, pt3):
-		return pt3*(pt1**2 - pt2**2)
-	def sph36(pt1, pt2, pt3):
-		return pt1*(pt1**2 - 3*pt2**2)
 
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
@@ -236,38 +183,6 @@ def buildSpecialSymCollMtrx(ptSetOne, ptSetTwo, secDiffKernelFct, pdeParam = 1.0
 
 # Kernel/Collocation matrix with 4rd order thin-plate spline on sphere
 def buildSpecialKernelCollMtrx(ptSetOne, ptSetTwo, diffKernelFct, pdeParam = 1.0):
-	def sph00(pt1, pt2, pt3):
-		return 1.0
-	def sph10(pt1, pt2, pt3):
-		return pt1
-	def sph11(pt1, pt2, pt3):
-		return pt2
-	def sph12(pt1, pt2, pt3):
-		return pt3
-	def sph20(pt1, pt2, pt3):
-		return pt1*pt2
-	def sph21(pt1, pt2, pt3):
-		return pt2*pt3
-	def sph22(pt1, pt2, pt3):
-		return 2*pt3**2 - pt1**2 - pt2**2
-	def sph23(pt1, pt2, pt3):
-		return pt1*pt3
-	def sph24(pt1, pt2, pt3):
-		return pt1**2 - pt2**2
-	def sph30(pt1, pt2, pt3):
-		return (3*pt1**2 - pt2**2)*pt2
-	def sph31(pt1, pt2, pt3):
-		return pt1*pt2*pt3
-	def sph32(pt1, pt2, pt3):
-		return pt2*(4*pt3**2 - pt1**2 - pt2**2)
-	def sph33(pt1, pt2, pt3):
-		return pt3*(2*pt3**2 - 3*pt1**2 - 3*pt2**2)
-	def sph34(pt1, pt2, pt3):
-		return pt1*(4*pt3**2 - pt1**2 - pt2**2)
-	def sph35(pt1, pt2, pt3):
-		return pt3*(pt1**2 - pt2**2)
-	def sph36(pt1, pt2, pt3):
-		return pt1*(pt1**2 - 3*pt2**2)
 
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
@@ -322,19 +237,4 @@ def buildSpecialKernelCollMtrx(ptSetOne, ptSetTwo, diffKernelFct, pdeParam = 1.0
 
 
 
-
-
-
-
-
-
-# MV = matrix valued 
-def buildKernelMtrxMV(ptSetOne, ptSetTwo, kernelFctMV, imageDim = 2):
-	lenPtSetOne = len(ptSetOne)
-	lenPtSetTwo = len(ptSetTwo)
-	kernelMtrxMV = np.zeros((imageDim*lenPtSetOne, imageDim*lenPtSetTwo))
-	for idx in range(lenPtSetOne):
-		for jdx in range(lenPtSetTwo):
-			kernelMtrxMV[(imageDim*idx):(imageDim*(idx+1)), (imageDim*jdx):(imageDim*(jdx+1))] = kernelFctMV(ptSetOne[idx,:], ptSetTwo[jdx,:])
-	return kernelMtrxMV
 

@@ -31,11 +31,38 @@ def getApproxFillDistanceSphere(ptSet, numSamp = 1000, distFct = distSphere):
 	distMtrx = buildKernelMtrx(ptSet, evalPtSet, distFct)
 	return np.amax(distMtrx.min(axis = 0))
 
-
-
-
-
-
+def sph00(pt1, pt2, pt3):
+	return 1.0
+def sph10(pt1, pt2, pt3):
+	return pt1
+def sph11(pt1, pt2, pt3):
+	return pt2
+def sph12(pt1, pt2, pt3):
+	return pt3
+def sph20(pt1, pt2, pt3):
+	return pt1*pt2
+def sph21(pt1, pt2, pt3):
+	return pt2*pt3
+def sph22(pt1, pt2, pt3):
+	return 2*pt3**2 - pt1**2 - pt2**2
+def sph23(pt1, pt2, pt3):
+	return pt1*pt3
+def sph24(pt1, pt2, pt3):
+	return pt1**2 - pt2**2
+def sph30(pt1, pt2, pt3):
+	return (3*pt1**2 - pt2**2)*pt2
+def sph31(pt1, pt2, pt3):
+	return pt1*pt2*pt3
+def sph32(pt1, pt2, pt3):
+	return pt2*(4*pt3**2 - pt1**2 - pt2**2)
+def sph33(pt1, pt2, pt3):
+	return pt3*(2*pt3**2 - 3*pt1**2 - 3*pt2**2)
+def sph34(pt1, pt2, pt3):
+	return pt1*(4*pt3**2 - pt1**2 - pt2**2)
+def sph35(pt1, pt2, pt3):
+	return pt3*(pt1**2 - pt2**2)
+def sph36(pt1, pt2, pt3):
+	return pt1*(pt1**2 - 3*pt2**2)
 
 
 
