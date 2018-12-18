@@ -64,12 +64,6 @@ def getPtsHalton(size, dim):
 		seq.append([vanDerCorput(i, base) for i in range(size)])
 	return np.array(seq).T
 
-def getApproxFillDistanceSphere(ptSet, numSamp = 1000, distFct = distSphere):
-	evalPtSet = getPtsFibonacciSphere(numSamp, 1)
-	distMtrx = buildKernelMtrx(ptSet, evalPtSet, distFct)
-	return np.amax(distMtrx.min(axis = 0))
-
-
 
 
 

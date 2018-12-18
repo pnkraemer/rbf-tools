@@ -8,63 +8,38 @@
 
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
-
-
 from __future__ import division
 import numpy as np
-import scipy.io as sp
-import sympy
-from sympy import refine, Q, sqrt
 import matplotlib.pyplot as plt
+import sympy
 from functools import partial
+
 import sys
 sys.path.insert(0,'../')
-
-from kernelFcts import distSphere, tpsKernelSphere
+from kernelFcts import distSphere, tps3KernelSphere, lapBelTps3Kernel
 from ptSetFcts import getPtsFibonacciSphere
-from kernelMtrcs import buildCollMtrxUnsymmCond, buildKernelMtrxCondSph2
-
+from kernelMtrcs import buildSpecialUnsCollMtrx, buildSpecialKernelMtrx
+from miscFcts import computeLapBelOp
 
 np.set_printoptions(precision=1)
+np.random.seed(15051994)
 
+print "\nHow many collocation points? (e.g. 150)"
+numPts = input("Enter: ")
 
-def lapBelOp(exprFct, pdeParam):
-	exprX = sympy.sin(sympy.Symbol('t')) * sympy.cos(sympy.Symbol('p'))
-	exprY = sympy.sin(sympy.Symbol('t')) * sympy.sin(sympy.Symbol('p'))
-	exprZ = sympy.cos(sympy.Symbol('t'))
-	exprFctPol = exprFct.subs({'x': exprX, 'y': exprY, 'z': exprZ})
-
-	lapBelOpFctPol = sympy.diff(sympy.sin(sympy.Symbol('t')) * sympy.diff(exprFctPol,sympy.Symbol('t')), \
-		sympy.Symbol('t')) / (sympy.sin(sympy.Symbol('t'))) +\
-		sympy.diff(exprFctPol, sympy.Symbol('p'), sympy.Symbol('p')) / (sympy.sin(sympy.Symbol('t'))**2)
-
-	exprT = sympy.acos(sympy.Symbol('z'))
-	exprP = sympy.atan2(sympy.Symbol('y'), sympy.Symbol('x'))
-	exprLapBelCart = lapBelOpFctPol.subs({'t': exprT, 'p': exprP})
-
-	return -exprLapBelCart + pdeParam**2 * exprFct
-
-
-def lapBelTps(pt1, pt2, pDeParam = 1.0):
-	distPts = distSphere(pt1, pt2)
-	if distPts >= 1:
-		return 
-	return -2*distPts * (distPts + 2*(distPts-1)*np.log(1 - distPts) - 1) -\
-		(distPts**2-1)*(2*np.log(1-distPts)+3) +\
-		pDeParam*(1-distPts)*(distPts-1)*np.log(1-distPts)
+print "\nWhich PDE parameter? (e.g. 1.0)"
+pdeParam = input("Enter: ")
+print ""
 
 exprTrueSol = sympy.exp(sympy.Symbol('x')) + (1 - sympy.Symbol('x'))
 trueSol = sympy.lambdify((sympy.Symbol('x'), sympy.Symbol('y'), sympy.Symbol('z')), exprTrueSol, modules=['numpy']) 
-pdeParam = 1.0
 
-lapBelTpsParam = partial(lapBelTps, pDeParam = pdeParam)
+lapBelTps = partial(lapBelTps3Kernel, pDeParam = pdeParam)
 
-numPts = 50
 ptSet = getPtsFibonacciSphere(numPts)
-collMtrx = buildCollMtrxUnsymmCond(ptSet, ptSet, lapBelTpsParam, pdeParam)
+collMtrx = buildSpecialUnsCollMtrx(ptSet, ptSet, lapBelTps, pdeParam)
 
-
-exprRhs = lapBelOp(exprTrueSol, pdeParam)
+exprRhs = computeLapBelOp(exprTrueSol, pdeParam)
 rhsFct = sympy.lambdify((sympy.Symbol('x'), sympy.Symbol('y'), sympy.Symbol('z')), exprRhs, modules =['numpy'])
 rhs = np.zeros(numPts + 9)
 for idx in range(numPts):
@@ -72,11 +47,9 @@ for idx in range(numPts):
 
 lagCoeff = np.linalg.solve(collMtrx, rhs)
 
-numEvalPts = 50
+numEvalPts = 250
 evalPtSet = getPtsFibonacciSphere(numEvalPts, 1)
-
-kernelMtrxLeft = buildKernelMtrxCondSph2(evalPtSet, ptSet, tpsKernelSphere)
-
+kernelMtrxLeft = buildSpecialKernelMtrx(evalPtSet, ptSet, tps3KernelSphere)
 approxSol = kernelMtrxLeft.dot(lagCoeff)
 approxSol = approxSol[0:numEvalPts]
 
@@ -86,43 +59,11 @@ for idx in range(numEvalPts):
 
 errL2 = np.linalg.norm(vecTrueSol - approxSol) / np.sqrt(numEvalPts)
 errLinfty = np.amax(np.fabs(vecTrueSol - approxSol))
-print '\nApproximation error:'
-print '\tL2 (normalised with sqrt(N))', errL2
-print '\tL-infinity =', errLinfty
+
+print 'Approximation error:'
+print '\tl2 (normalised) = %.1e'%errL2
+print '\tl-infinity = %.1e'%errLinfty
 print ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# h1 = get_filldistance(collpoints)
-# h2 = get_filldistance(evalpoints)
-# print '\nApproximate fill distance of:'
-# print '    collpoints: h =', h1
-# print '    evalpoints: h =', h2
-
 
 
 

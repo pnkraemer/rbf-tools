@@ -98,6 +98,7 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
     		child { node[module] {\texttt{kernelFcts.py}}}		
     		child { node[module] {\texttt{kernelMtrcs.py}}}
     		child { node[module] {\texttt{ptSetFcts.py}}}
+    		child { node[module] {\texttt{miscFcts.py}}}
 		child { node {interpolation}
     			child { node[script] {\texttt{interpolMatern1d.py}}}
 			}
@@ -198,6 +199,7 @@ The following is a list of most naming conventions regarding a unified system:
 \item Number of evaluation points: \texttt{numEvalPts}
 \item Lebesgue constant: \texttt{lebCnst}
 \item Expression: \texttt{expr} (as in \texttt{exprSol}) 
+\item Collocation: \texttt{coll} (as in \texttt{collMtrx}) 
 \item Gaussian: \texttt{gauss} (as in \texttt{gaussKernel} instead of \texttt{gaussianKernel})
 \end{itemize}
 \end{enumerate}
@@ -257,7 +259,9 @@ The input pointsets need to have the same dimension, but do not need to match in
 \subsection{Pointsets}
 I collect different strategies to construct pointsets such as random points, Halton points and more in the file \texttt{ptSetFcts.py}. The input is always the overall number of points and the desired dimension. The output is always a pointset in $[0,1]^d$, if not specified otherwise. The function names start with \texttt{getPts}, as in for example \texttt{getPtsHalton} or \texttt{getPtsFibonacci}.
 
+\subsection{Miscellaneous functions}
 
+I collect all the remaining helpful functions, such as computing the Laplace-Beltrami operator of a sympy expression or computing the approximate fill distance, in \texttt{miscFcts.py}. 
 
 \section{Plotting}
 
