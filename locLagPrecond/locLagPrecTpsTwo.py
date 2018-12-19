@@ -17,7 +17,7 @@ import scipy.spatial
 import scipy.sparse.linalg as spla
 
 import sys
-sys.path.insert(0,'../')
+sys.path.insert(0,'../modules/')
 from kernelFcts import tpsKernelSphere
 from ptSetFcts import getPtsFibonacciSphere
 from kernelMtrcs import buildKernelMtrxCond

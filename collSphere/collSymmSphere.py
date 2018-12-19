@@ -15,8 +15,7 @@ import sympy
 from functools import partial
 
 import sys
-sys.path.insert(0,'../')
-
+sys.path.insert(0,'../modules/')
 from kernelFcts import distSphere, secLapBelTps4Kernel, lapBelTps4Kernel
 from ptSetFcts import getPtsFibonacciSphere
 from kernelMtrcs import buildSpecialSymCollMtrx, buildSpecialKernelCollMtrx

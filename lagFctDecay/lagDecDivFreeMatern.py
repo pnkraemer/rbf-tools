@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.insert(0,'../')
+sys.path.insert(0,'../modules/')
 from kernelFcts import maternKernelDivFree2d
 from ptSetFcts import getPtsHalton
 from kernelMtrcs import buildKernelMtrxMV

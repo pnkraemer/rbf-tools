@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 import sys
-sys.path.insert(0,'../')
+sys.path.insert(0,'../modules/')
 from kernelFcts import imqKernel
 from kernelMtrcs import buildKernelMtrx
 

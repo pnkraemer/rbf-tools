@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.insert(0,'../')
+sys.path.insert(0,'../modules/')
 from kernelFcts import tpsKernelSphere, distSphere
 from ptSetFcts import getPtsFibonacciSphere, getPtsRandomSphere
 from kernelMtrcs import buildKernelMtrxCond

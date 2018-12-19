@@ -12,7 +12,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-sys.path.insert(0,'../')
+sys.path.insert(0,'../modules/')
 from ptSetFcts import getPtsHalton
 from kernelMtrcs import buildKernelMtrx, buildKernelMtrxShift
 from kernelFcts import expKernel
