@@ -7,7 +7,36 @@
 # AUTHOR: NK, kraemer(at)ins.uni-bonn.de
 
 import sympy
+import numpy as np
+import scipy.spatial
+
 from kernelFcts import distSphere
+
+
+def locLagPrecon(ptSet, tree, radius, kernelMtrxFct, kernelFct, polBlockSize = 4):
+
+	numPts = len(ptSet)
+	numNeighb = 1.0 * radius * np.log10(numPts) * np.log10(numPts)
+	numNeighb = np.minimum(np.floor(numNeighb), numPts)
+
+	preconMtrx = np.zeros((numPts + polBlockSize, numPts))
+	for idx in range(numPts):
+
+		distNeighb, indNeighb = tree.query(ptSet[idx], k = numNeighb)
+
+		locKernelMtrx = kernelMtrxFct(ptSet[indNeighb], ptSet[indNeighb], kernelFct)
+		locRhs = np.zeros(len(indNeighb) + polBlockSize)
+		locRhs[(indNeighb==idx*np.ones((1, len(indNeighb)))[0]).nonzero()] = 1
+
+		locCoeff = np.linalg.solve(locKernelMtrx, locRhs)
+
+		locCoeffBlock = locCoeff[range(len(indNeighb))]
+		locPolyBlock = locCoeff[range(len(indNeighb), len(indNeighb) + polBlockSize)]
+		preconMtrx[indNeighb, idx] = locCoeffBlock.T
+		preconMtrx[numPts:(numPts + polBlockSize), idx] = locPolyBlock.T
+	return preconMtrx, numNeighb
+
+
 
 def computeLapBelOp(exprFct, pdeParam):
 	exprX = sympy.sin(sympy.Symbol('t')) * sympy.cos(sympy.Symbol('p'))
@@ -63,6 +92,15 @@ def sph35(pt1, pt2, pt3):
 	return pt3*(pt1**2 - pt2**2)
 def sph36(pt1, pt2, pt3):
 	return pt1*(pt1**2 - 3*pt2**2)
+
+class gmresCounter(object):
+    def __init__(self, disp=False):
+        self._disp = disp
+        self.numIter = 0
+    def __call__(self, rk=None):
+        self.numIter += 1
+        if self._disp:
+            print('iter %3i\trk = %s' % (self.niter, str(rk)))
 
 
 
