@@ -14,6 +14,10 @@ def distSphere(ptOne, ptTwo):
 	return 1 - ptOne.dot(ptTwo)
 
 
+def imqKernel(ptOne, ptTwo, imqPower = 1.0):
+	distPts = np.linalg.norm(ptOne - ptTwo)
+	return 1.0 / np.sqrt((1 + distPts**2)**imqPower)
+
 def gaussKernel(ptOne, ptTwo, lengthScale = 1.0):
 	distPts = np.linalg.norm(ptOne - ptTwo)
 	return np.exp(-distPts**2/(2.0*lengthScale**2))
