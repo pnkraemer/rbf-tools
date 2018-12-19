@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 \usepackage[margin = 30mm]{geometry}
 \usepackage{abstract}
@@ -82,7 +82,7 @@ Resuability is a driving force of most of the modules. Many features have to be 
 
 
 \section{Hierarchy}
-The hierarchy is supposed to be as flat as possible. The only things that are supposed to be in directories are figures; see Figure \ref{fig:hierarchy}.
+The hierarchy is supposed to be as flat as possible. The only things that are supposed to be in directories are figures; see Figure \ref{fig:hierarchy} at the end of the document.
 
 \begin{figure}[h]
 \centering
@@ -95,10 +95,16 @@ The hierarchy is supposed to be as flat as possible. The only things that are su
   	two children at (0.5,-0.7) and (0.5,-1.4)},
   	edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]	
 	\node {rbf-tools}
-    		child { node[module] {\texttt{kernelFcts.py}}}		
-    		child { node[module] {\texttt{kernelMtrcs.py}}}
-    		child { node[module] {\texttt{ptSetFcts.py}}}
-    		child { node[module] {\texttt{miscFcts.py}}}
+		child { node {modules}
+    			child { node[module] {\texttt{kernelFcts.py}}}		
+    			child { node[module] {\texttt{kernelMtrcs.py}}}
+    			child { node[module] {\texttt{ptSetFcts.py}}}
+    			child { node[module] {\texttt{miscFcts.py}}}
+			}
+			child[missing] {}
+			child[missing] {}
+			child[missing] {}
+			child[missing] {}
 		child { node {lebConsts}
     			child { node[script] {\texttt{lebConstExpKernel.py}}}
     			child { node[script] {\texttt{lebConstGaussKernel.py}}}
@@ -299,6 +305,10 @@ to the top of each script
 \item \textbf{Line width:} Increase line width and markersize, e.g. \verb+linewidth = 2+ and \verb+markersize = 8+
 \item \textbf{Color:} Main color is \texttt{darkslategray} which seems like a decent tradeoff between color and simplicity; as a complementary color I use \texttt{red} which is a tad lighter than its true complementary color
 \item \textbf{Opacity:} Put the opacity value to \verb+alpha = 0.8+ which is less aggressive
+\item \textbf{Legend:} A slight shadow seems nice:
+\begin{Verbatim}[formatcom=\color{blue!50!black}]
+plt.legend(shadow = True)
+\end{Verbatim}
 \item \textbf{Saving:} Save plots into files automatically via for example
 \begin{Verbatim}[formatcom=\color{blue!50!black}]
 plt.savefig("figures/titleOfScript/fctValues.png")
