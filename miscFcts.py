@@ -13,7 +13,7 @@ import scipy.spatial
 from kernelFcts import distSphere
 
 
-def locLagPrecon(ptSet, tree, radius, kernelMtrxFct, kernelFct, polBlockSize = 4):
+def locLagPrecon(ptSet, tree, radius, kernelMtrxFct, kernelFct, polBlockSize):
 
 	numPts = len(ptSet)
 	numNeighb = 1.0 * radius * np.log10(numPts) * np.log10(numPts)
@@ -25,6 +25,33 @@ def locLagPrecon(ptSet, tree, radius, kernelMtrxFct, kernelFct, polBlockSize = 4
 		distNeighb, indNeighb = tree.query(ptSet[idx], k = numNeighb)
 
 		locKernelMtrx = kernelMtrxFct(ptSet[indNeighb], ptSet[indNeighb], kernelFct)
+		locRhs = np.zeros(len(indNeighb) + polBlockSize)
+		locRhs[(indNeighb==idx*np.ones((1, len(indNeighb)))[0]).nonzero()] = 1
+
+		locCoeff = np.linalg.solve(locKernelMtrx, locRhs)
+
+		locCoeffBlock = locCoeff[range(len(indNeighb))]
+		locPolyBlock = locCoeff[range(len(indNeighb), len(indNeighb) + polBlockSize)]
+		preconMtrx[indNeighb, idx] = locCoeffBlock.T
+		preconMtrx[numPts:(numPts + polBlockSize), idx] = locPolyBlock.T
+	return preconMtrx, numNeighb
+
+
+
+
+
+def locLagPreconColl(ptSet, tree, radius, kernelMtrxFct, kernelFct, pdeParam , polBlockSize):
+
+	numPts = len(ptSet)
+	numNeighb = 1.0 * radius * np.log10(numPts) * np.log10(numPts)
+	numNeighb = np.minimum(np.floor(numNeighb), numPts)
+
+	preconMtrx = np.zeros((numPts + polBlockSize, numPts))
+	for idx in range(numPts):
+
+		distNeighb, indNeighb = tree.query(ptSet[idx], k = numNeighb)
+
+		locKernelMtrx = kernelMtrxFct(ptSet[indNeighb], ptSet[indNeighb], kernelFct, pdeParam)
 		locRhs = np.zeros(len(indNeighb) + polBlockSize)
 		locRhs[(indNeighb==idx*np.ones((1, len(indNeighb)))[0]).nonzero()] = 1
 
