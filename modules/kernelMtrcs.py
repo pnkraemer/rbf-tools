@@ -12,28 +12,28 @@ from miscFcts import sph00, sph10, sph11, sph12, sph20, sph21, sph22, sph23, sph
 np.random.seed(15051994)
 np.set_printoptions(precision = 2)
 
-def buildKernelMtrxShift(ptSetOne, ptSetTwo, kernelFct, shiftPar):
-	lenPtSetOne = len(ptSetOne)
-	lenPtSetTwo = len(ptSetTwo)
-	if lenPtSetOne != lenPtSetTwo:
-		print "The pointsets do not align... return 0"
-		return 0
-	kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
-	for idx in range(lenPtSetOne):
-		for jdx in range(lenPtSetTwo):
-				kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
-	return kernelMtrx + shiftPar * np.identity(lenPtSetOne)
+# def buildKernelMtrxShift(ptSetOne, ptSetTwo, kernelFct, shiftPar):
+# 	lenPtSetOne = len(ptSetOne)
+# 	lenPtSetTwo = len(ptSetTwo)
+# 	if lenPtSetOne != lenPtSetTwo:
+# 		print("The pointsets do not align... return 0")
+# 		return 0
+# 	kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
+# 	for idx in range(lenPtSetOne):
+# 		for jdx in range(lenPtSetTwo):
+# 				kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
+# 	return kernelMtrx + shiftPar * np.identity(lenPtSetOne)
 
-def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct):
+def buildKernelMtrx(ptSetOne, ptSetTwo, kernelFct, shiftPar = 0.0):
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
 	kernelMtrx = np.zeros((lenPtSetOne, lenPtSetTwo))
 	for idx in range(lenPtSetOne):
 		for jdx in range(lenPtSetTwo):
 			kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
-	return kernelMtrx
+	return kernelMtrx + shiftPar * np.identity(lenPtSetOne)
 
-def buildKernelMtrxCond(ptSetOne, ptSetTwo, kernelFct, polOrder = 1):
+def buildKernelMtrxCond(ptSetOne, ptSetTwo, kernelFct, shiftPar = 0.0, polOrder = 1):
 	lenPtSetOne = len(ptSetOne)
 	lenPtSetTwo = len(ptSetTwo)
 	dim = len(ptSetOne.T)
@@ -41,6 +41,8 @@ def buildKernelMtrxCond(ptSetOne, ptSetTwo, kernelFct, polOrder = 1):
 	for idx in range(lenPtSetOne):
 		for jdx in range(lenPtSetTwo):
 			kernelMtrx[idx,jdx] = kernelFct(ptSetOne[idx,:], ptSetTwo[jdx,:])
+			if idx==jdx:
+				kernelMtrx[idx, jdx] = kernelMtrx[idx, jdx] + shiftPar
 		for jdx in range(polOrder):
 			kernelMtrx[idx, lenPtSetTwo] = 1
 			for kdx in range(dim):
