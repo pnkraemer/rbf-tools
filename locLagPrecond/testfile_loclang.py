@@ -34,17 +34,27 @@ print("\nWhich GMRES tolerance? (e.g. 1e-10)")
 gmresTol = float(input("Enter: "))
 print("")
 
-ptSet = getPtsFibonacciSphere(numPts)
+ptSet = getPtsFibonacciSphere(samples = numPts)
+np.savetxt("ptset.txt", ptSet)
+
 kdTree = scipy.spatial.KDTree(ptSet)
 
 kernelMtrx = buildKernelMtrxCond(ptSet, ptSet, tpsKernelSphere)
+np.savetxt("kernelMtrxCond.txt", kernelMtrx)
 preconMtrx, numNeighb = locLagPrecon(ptSet, kdTree, locRadius, buildKernelMtrxCond, tpsKernelSphere, 4)
-conditionedMtrx = kernelMtrx.dot(preconMtrx)
+pre = np.identity(numPts + 4)
+pre[:, 0:numPts] = preconMtrx
+np.savetxt("preconditioner.txt", pre)
+
+conditionedMtrx = kernelMtrx.dot(pre)
 conditionedMtrx = conditionedMtrx[0:numPts, 0:numPts]
+np.savetxt("conditionedMtrx.txt", conditionedMtrx)
+
 
 print('Number of neighbors for localisation:')
 print('\tn =', numNeighb)
 
+sys.exit()
 print('\nEffect of preconditioner:')
 print('\tcond(K) =', np.linalg.cond(kernelMtrx))
 print('\tcond(KP) =', np.linalg.cond(conditionedMtrx))

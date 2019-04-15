@@ -19,7 +19,7 @@ def getPtsRandomSphere(size):
 	return ptsSphere
 
 # stolen from https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
-def getPtsFibonacciSphere(samples=1,randomize=False):
+def getPtsFibonacciSphere(samples = 1, randomize = False):
     rnd = 1.0
     if randomize:
         rnd = np.random.rand() * samples

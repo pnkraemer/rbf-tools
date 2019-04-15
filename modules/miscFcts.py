@@ -17,13 +17,13 @@ def locLagPrecon(ptSet, tree, radius, kernelMtrxFct, kernelFct, polBlockSize):
 
 	numPts = len(ptSet)
 	numNeighb = 1.0 * radius * np.log10(numPts) * np.log10(numPts)
-	numNeighb = np.minimum(np.floor(numNeighb), numPts)
+	numNeighb = int(np.minimum(np.floor(numNeighb), numPts))
 
-	preconMtrx = np.zeros((numPts + polBlockSize, numPts))
+	preconMtrx = np.identity(numPts + polBlockSize)
 	for idx in range(numPts):
 
 		distNeighb, indNeighb = tree.query(ptSet[idx], k = numNeighb)
-
+		#print(ptSet[indNeighb])
 		locKernelMtrx = kernelMtrxFct(ptSet[indNeighb], ptSet[indNeighb], kernelFct)
 		locRhs = np.zeros(len(indNeighb) + polBlockSize)
 		locRhs[(indNeighb==idx*np.ones((1, len(indNeighb)))[0]).nonzero()] = 1
