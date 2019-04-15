@@ -44,21 +44,21 @@ def tpsKernel(ptOne, ptTwo):
 	if distPts <= 0:
 		return 0
 	else:
-		return distPts**2 * np.log(distPts)
+		return distPts * np.log(distPts)
 
 def tpsKernelSphere(ptOne, ptTwo):
 	distPts = distSphere(ptOne, ptTwo)
 	if distPts <= 0:
 		return 0
 	else:
-		return distPts**2 * np.log(distPts)
+		return distPts * np.log(distPts)
 
 def tps3KernelSphere(ptOne, ptTwo):
 	distPts = distSphere(ptOne, ptTwo)
 	if distPts <= 0:
 		return 0
 	else:
-		return distPts**3 * np.log(distPts)
+		return distPts**2 * np.log(distPts)
 
 # ptOne and ptTwo are 2-dimensional vectors!
 def maternKernelDivFree2d(ptOne, ptTwo, maternReg, maternScale = 1.0, maternCorrLength = 1.0):
